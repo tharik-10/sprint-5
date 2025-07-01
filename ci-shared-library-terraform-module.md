@@ -19,3 +19,26 @@ The Terraform Module CI Shared Library enables automated validation of Terraform
 - Injects module input variables into plan
 - Compatible with multi-module pipelines
 - Fast validation during Pull Request (PR) or CI trigger
+
+## Supported Functions
+| Function            | Description                                                    |
+| ------------------- | -------------------------------------------------------------- |
+| `terraformInit`     | Initializes the Terraform backend and working directory        |
+| `terraformValidate` | Validates module structure, syntax, and configuration          |
+| `terraformPlan`     | Shows a dry-run of changes, using module variables if provided |
+
+## Inputs 
+| Key             | Type   | Description                                          |
+| --------------- | ------ | ---------------------------------------------------- |
+| `directory`     | String |Path to the Terraform module                         |
+| `backendConfig` | Map    | Key-value pairs for remote backend (e.g., S3 config) |
+| `vars`          | Map    | Terraform variables passed to the plan step          |
+| `outFile`       | String |  Optional file to save the plan output                |
+
+## Outputs
+| Function            | Output                                                   |
+| ------------------- | -------------------------------------------------------- |
+| `terraformInit`     | Runs `terraform init` with optional remote backend setup |
+| `terraformValidate` | Fails the build if the module is invalid                 |
+| `terraformPlan`     | Shows Terraform changes and optionally writes to a file  |
+
