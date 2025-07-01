@@ -13,6 +13,14 @@
 ## Introduction
 The Terraform Module CI Shared Library enables automated validation of Terraform modules in Jenkins pipelines. It provides reusable functions for init, validate, and plan, ensuring consistency, accuracy, and best practices during CI workflows.
 
+## Prerequisites
+
+| Component              | Requirement                                                                 |
+|------------------------|-----------------------------------------------------------------------------|
+| Jenkins Shared Library | Name: `terraform-module-ci-lib`<br>Points to the Git repo containing the shared library |
+| Jenkins Agent          | - Terraform (v1.x)<br>- Git access to Terraform module repositories         |
+| Optional               | AWS credentials via IAM, Jenkins credentials plugin, or environment variables |
+
 ## Key Features
 - Works with Terraform module directories
 - Supports remote backend initialization
