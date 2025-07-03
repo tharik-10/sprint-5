@@ -6,9 +6,23 @@
 # Terraform Module CI Shared Library Documentation
 | Created        | Last updated      | Version         | author|  Internal Reviewer | L0 | L1 | L2|
 |----------------|----------------|-----------------|-----------------|-----|------|----|----|
-| 2025-07-01  | 2025-07-01   |     Version 1         |  Mohamed Tharik |Priyanshu|Khushi|Mukul Joshi |Piyush Upadhyay|
+| 2025-07-01  | 2025-07-03   |     Version 1         |  Mohamed Tharik |Priyanshu|Khushi|Mukul Joshi |Piyush Upadhyay|
 
 ## Table of Contents 
+
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Key Features](#key-features)
+- [Supported Functions](#supported-functions)
+- [Inputs](#inputs)
+- [Outputs](#outputs)
+- [Jenkinsfile Usage Example](#jenkinsfile-usage-example)
+- [Folder Structure for terraform-module-ci-lib](#folder-structure-for-terraform-module-ci-lib)
+- [Key File Descriptions](#key-file-descriptions)
+- [Best Practices](#best-practices)
+- [Conclusion](#conclusion)
+- [Contact Information](#contact-information)
+- [References](#references)
 
 ## Introduction
 The Terraform Module CI Shared Library enables automated validation of Terraform modules in Jenkins pipelines. It provides reusable functions for init, validate, and plan, ensuring consistency, accuracy, and best practices during CI workflows.
