@@ -50,3 +50,113 @@ The Terraform Module CI Shared Library enables automated validation of Terraform
 | `terraformValidate` | Fails the build if the module is invalid                 |
 | `terraformPlan`     | Shows Terraform changes and optionally writes to a file  |
 
+## Jenkinsfile Usage Example
+```bash
+@Library('terraform-module-ci-lib') _
+
+pipeline {
+  agent any
+
+  environment {
+    TF_MODULE_DIR = 'terraform/modules/network'
+  }
+
+  stages {
+    stage('Terraform Init') {
+      steps {
+        script {
+          terraformInit(
+            directory: "${TF_MODULE_DIR}",
+            backendConfig: [
+              bucket: 'tfstate-dev-bucket',
+              key: 'network/dev/terraform.tfstate',
+              region: 'ap-south-1'
+            ]
+          )
+        }
+      }
+    }
+
+    stage('Terraform Validate') {
+      steps {
+        script {
+          terraformValidate(directory: "${TF_MODULE_DIR}")
+        }
+      }
+    }
+
+    stage('Terraform Plan') {
+      steps {
+        script {
+          terraformPlan(
+            directory: "${TF_MODULE_DIR}",
+            vars: [
+              environment: 'dev',
+              region: 'ap-south-1'
+            ],
+            outFile: 'tfplan.out'
+          )
+        }
+      }
+    }
+  }
+}
+```
+## Folder Structure for terraform-module-ci-lib
+```bash
+terraform-module-ci-lib/
+├── src/
+│   └── org/
+│       └── cloudninja/
+│           └── TerraformUtils.groovy         # Core Groovy file with init, validate, plan functions
+├── vars/
+│   └── terraformInit.groovy                  # (Optional) Wrapper for terraformInit
+│   └── terraformValidate.groovy              # (Optional) Wrapper for terraformValidate
+│   └── terraformPlan.groovy                  # (Optional) Wrapper for terraformPlan
+├── resources/
+│   └── org/
+│       └── cloudninja/
+│           └── help.txt                      # (Optional) Help or default messages
+├── README.md                                 # Library documentation (purpose, usage, examples)
+├── Jenkinsfile                               # Example Jenkins pipeline using this library
+└── LICENSE                                   # (Optional) License file if open sourced
+```
+## Key File Descriptions
+| File/Directory          | Description                                                                       |
+| ----------------------- | --------------------------------------------------------------------------------- |
+| `src/org/terraformci/`  | Main namespace for all reusable Terraform functions                               |
+| `TerraformUtils.groovy` | Contains functions like `terraformInit`, `terraformValidate`, and `terraformPlan` |
+| `vars/`                 | (Optional) Global pipeline steps that act as simplified entrypoints               |
+| `resources/`            | (Optional) For text, help messages, templates if needed                           |
+| `README.md`             | Documentation covering purpose, inputs, outputs, Jenkins usage                    |
+| `Jenkinsfile.example`   | Demonstrates how to use the shared library in a real CI pipeline                  |
+
+## Best Practices
+
+| Best Practice                                       | Description                                                                 |
+|-----------------------------------------------------|-----------------------------------------------------------------------------|
+| Run `init`, `validate`, and `plan` in CI           | Ensure these steps are always part of the CI pipeline to catch errors early |
+| Enforce `terraform fmt -check`                     | Maintain consistent Terraform code formatting across all modules            |
+| Lock Terraform version                             | Use a specific version (e.g., `~> 1.5.0`) to avoid compatibility issues      |
+| Fail pipeline on validation or plan errors         | Prevent broken code from being merged by enforcing failure on CI errors     |
+| Use remote backend for plan (optional)             | Simulate real-world planning using shared backends like S3 + DynamoDB       |
+| Pass required variables to `plan`                  | Avoid using unsafe defaults by injecting environment-specific variables      |
+| Keep library logic clean and reusable              | Use parameters, not hardcoded values, for flexibility across different modules |
+
+## Conclusion
+- The Terraform Module CI Shared Library helps automate and simplify the validation of Terraform modules in Jenkins. It makes sure your code is correct, follows best practices, and works as expected — all before deployment.
+
+- By using this shared library, teams can save time, avoid mistakes, and keep their Terraform pipelines clean, consistent, and reliable.
+
+## Contact Information
+| Name | Email address         |
+|------|------------------------|
+| Mohamed Tharik  | md.tharik.sanaatak@mygurukulam.co    |
+
+## References
+| Link                                                                                               | Description                                                                       |
+| -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| [Jenkins Shared Libraries](https://www.jenkins.io/doc/book/pipeline/shared-libraries/)             | How to structure and use shared libraries in Jenkins pipelines                    |
+| [Terraform CLI - Commands](https://developer.hashicorp.com/terraform/cli/commands)                 | Official documentation for Terraform commands like `init`, `validate`, and `plan` |
+| [Terraform Best Practices](https://developer.hashicorp.com/terraform/docs/language/best-practices) | Recommended practices for writing clean and reusable Terraform modules            |
+
