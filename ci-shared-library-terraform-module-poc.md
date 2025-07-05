@@ -37,9 +37,9 @@ The shared library standardizes and simplifies tasks such as `terraform init`, `
 
 ## Folder Structure
 
-### Jenkins Shared Library (`terraform-module-ci-lib`)
+### Jenkins Shared Library (`shared-library`)
 ```bash
-terraform-module-ci-lib/
+shared-library/
 ├── vars/
 │   └── terraformCICheckTemplate.groovy  # Template calling init, validate, plan
 ├── src/
