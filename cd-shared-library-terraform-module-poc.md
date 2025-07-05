@@ -10,7 +10,6 @@
 
 ## Table of Contents
 
-
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Folder Structure](#folder-structure)
