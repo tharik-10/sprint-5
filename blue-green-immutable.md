@@ -1,4 +1,6 @@
-![image](https://github.com/user-attachments/assets/1c5a6d42-857c-434c-b66b-76134b964179)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1c5a6d42-857c-434c-b66b-76134b964179" width="500"/>
+</p>  
 
 # Immutable Infra Rollout for Blue Green
 | Created        | Last updated      | Version         | author|  Internal Reviewer | L0 | L1 | L2|
