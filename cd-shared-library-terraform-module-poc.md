@@ -74,6 +74,12 @@ class TerraformCDUtils implements Serializable {
     this.steps = steps
   }
 
+  def terraformInit(Map config) {
+    def dir = config.directory
+    def backendConfig = config.backendConfig?.collect { k, v -> "-backend-config=${k}=${v}" }?.join(' ') ?: ''
+    steps.sh "cd ${dir} && terraform init ${backendConfig}"
+  }
+
   def terraformApply(Map config) {
     def dir = config.directory
     def varsArgs = config.vars?.collect { k, v -> "-var '${k}=${v}'" }?.join(' ') ?: ''
@@ -104,6 +110,13 @@ def call(Map config = [:]) {
       stage('Checkout Code') {
         steps.checkout scm
         steps.echo "Code checkout completed using SCM"
+      }
+
+      stage('Terraform Init') {
+        tf.terraformInit(
+          directory: MODULE_DIR,
+          backendConfig: config.get('backendConfig', [:])
+        )
       }
 
       stage("Terraform ${ACTION.capitalize()}") {
