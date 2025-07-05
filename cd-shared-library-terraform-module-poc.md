@@ -97,10 +97,15 @@ def call(Map config = [:]) {
   def TF_VARS    = config.get('tfVars', [:])
   def ACTION     = config.get('action', 'apply')  // accepts "apply" or "destroy"
 
-  def tf = new org.cloudninja.TerraformUtils(steps)
+  def tf = new org.cloudninja.TerraformCDUtils(steps)
 
   node {
     try {
+      stage('Checkout Code') {
+        steps.checkout scm
+        steps.echo "Code checkout completed using SCM"
+      }
+
       stage("Terraform ${ACTION.capitalize()}") {
         if (ACTION == 'apply') {
           tf.terraformApply(directory: MODULE_DIR, vars: TF_VARS)
