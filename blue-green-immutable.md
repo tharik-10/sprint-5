@@ -7,6 +7,22 @@
 
 ## Table of Contents
 
+- [Introduction](#introduction)
+- [Overview of Blue-Green Deployment](#overview-of-blue-green-deployment)
+- [Prerequisites](#prerequisites)
+- [Flow Diagram of Infrastructure Rollout for Blue Green](#flow-diagram-of-infrastructure-rollout-for-blue-green)
+- [Terraform Implementation Strategy](#terraform-implementation-strategy)
+- [Implementation for Blue Green Deployment](#implementation-for-blue-green-deployment)
+  - [Step 1: Initialize Terraform Project](#step-1-initialize-terraform-project)
+  - [Step 2: Project Directory Structure](#step-2-project-directory-structure)
+  - [Step 3: Define AWS Provider](#step-3-define-aws-provider)
+  - [Step 4: Run the Terraform Commands to Apply and see changes in the Cloud](#step-4-run-the-terraform-commands-to-apply-and-see-changes-in-the-cloud)
+  - [Step 5: Switch Traffic to Green](#step-5-switch-traffic-to-green)
+- [Best Practices](#best-practices)
+- [Conclusion](#conclusion)
+- [Contact Information](#contact-information)
+- [References](#references)
+
 ## Introduction
 This document explains how to implement **Blue-Green Deployment using Terraform** with an **Immutable Infrastructure** approach. It describes how two separate environments (blue and green) are used to deploy and switch application versions safely without downtime. Terraform automates the provisioning, switching, and removal of infrastructure components.
 
@@ -249,4 +265,16 @@ Blue-Green Deployment with Immutable Infrastructure provides **safe, zero-downti
 | Name | Email address         |
 |------|------------------------|
 | Mohamed Tharik  | md.tharik.sanaatak@mygurukulam.co    |
+
+## References
+| Link                                                                                                                              | Description                                                                                   |
+|-----------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| [Blue/Green Deployment – Martin Fowler](https://martinfowler.com/bliki/BlueGreenDeployment.html)                                 | Core concept explanation of Blue-Green deployment strategy from Martin Fowler.                |
+| [Immutable Infrastructure – Red Hat](https://www.redhat.com/en/topics/devops/what-is-immutable-infrastructure)                   | Explains the benefits and working of immutable infrastructure in a DevOps context.            |
+| [Blue-Green Deployments with Terraform on AWS – Gruntwork](https://blog.gruntwork.io/a-comprehensive-guide-to-blue-green-deployments-on-aws-using-terraform-8348e8f23f3f) | Practical implementation of Blue-Green deployments using Terraform and AWS services.          |
+| [AWS Whitepaper – Blue/Green Deployment](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/bluegreen-deployments.html) | Official AWS deployment strategies whitepaper including Blue-Green.                          |
+| [Terraform AWS Autoscaling Module](https://registry.terraform.io/modules/terraform-aws-modules/autoscaling/aws/latest)           | Official Terraform module to manage AWS Auto Scaling Groups for immutable infra.              |
+| [EC2 Launch Templates – AWS Docs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html)                 | Used to define immutable EC2 instance configurations.                                         |
+| [ALB Listener Rules – AWS Docs](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html)| Key to switching traffic between Blue and Green environments using ALB target groups.         |
+
 
