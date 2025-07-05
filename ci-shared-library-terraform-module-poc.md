@@ -45,7 +45,7 @@ terraform-module-ci-lib/
 ├── src/
 │   └── org/
 │       └── snaatak/
-│           └── TerraformUtils.groovy   # Shared reusable class for Terraform functions
+│           └── TerraformCIUtils.groovy   # Shared reusable class for Terraform functions
 ```
 ### Terraform Modules Repository
 ```bash
@@ -66,10 +66,10 @@ Ensure the Terraform code is under a valid module structure.
 ```bash
 package org.snaatak
 
-class TerraformUtils implements Serializable {
+class TerraformCIUtils implements Serializable {
   def steps
 
-  TerraformUtils(steps) {
+  TerraformCIUtils(steps) {
     this.steps = steps
   }
 
@@ -103,7 +103,7 @@ def call(Map config = [:]) {
   def TF_VARS       = config.get('tfVars', [:])
   def PLAN_OUT_FILE = config.get('planOutFile', 'tfplan.out')
 
-  def tf = new org.snaatak.TerraformUtils(steps)
+  def tf = new org.snaatak.TerraformCIUtils(steps)
 
   node {
     try {
