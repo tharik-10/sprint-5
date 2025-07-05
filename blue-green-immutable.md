@@ -269,7 +269,7 @@ Blue-Green Deployment with Immutable Infrastructure provides **safe, zero-downti
 ## References
 | Link                                                                                                                               | Description                                                                                   |
 |------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| [Blue/Green Deployment – Martin Fowler](https://martinfowler.com/bliki/BlueGreenDeployment.html)                                  | Foundational explanation of the Blue-Green deployment strategy.                               |
+| [Wikipedia – Blue–Green Deployment](https://en.wikipedia.org/wiki/Blue%E2%80%93green_deployment)                                   | Wikipedia article describing the concept, flow, and benefits of Blue-Green deployment.        |
 | [Immutable Infrastructure – Red Hat](https://www.redhat.com/en/topics/devops/what-is-immutable-infrastructure)                    | DevOps-oriented explanation of immutable infrastructure and its importance.                   |
 | [Blue-Green Deployments with Terraform – Gruntwork Blog](https://blog.gruntwork.io/a-comprehensive-guide-to-blue-green-deployments-on-aws-using-terraform-8348e8f23f3f) | Detailed Terraform-based guide on Blue-Green deployments on AWS.                             |
 | [AWS Whitepaper – Blue/Green Deployment](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/bluegreen-deployments.html) | Official AWS deployment options including Blue-Green explained in detail.                    |
