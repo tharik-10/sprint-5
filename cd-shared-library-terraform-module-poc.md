@@ -158,11 +158,14 @@ terraformCDTemplate(
 - Navigate to Jenkins
 - Create a Pipeline Job → SCM → point to the Terraform repo
 - Set main as the branch
+![Screenshot-269](https://github.com/user-attachments/assets/a387c794-af57-491a-b146-a2c1712ac7cb)
+
 - Run the job
 - Output should show:
   - Terraform Init successful
   - Terraform Validate passed
   - Terraform Plan generated plan with no errors
+![Screenshot-268](https://github.com/user-attachments/assets/8b300dfe-b1df-47da-b8ab-451d83b9dd9a)
 
 ## Best Practices
 | Best Practice                  | Why It Matters                                            |
