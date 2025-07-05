@@ -62,10 +62,7 @@ terraform/
 ├── Jenkinsfile
 ```
 ## POC Steps for Terraform Modules CI 
-### Step 1: Clone the Terraform Module Repository
-Ensure the Terraform code is under a valid module structure.
-
-### Step 2: Jenkins Shared Library - Terraform Utils
+### Step 1: Jenkins Shared Library - Terraform Utils
 `src/org/cloudninja/TerraformCIUtils.groovy`
 ```bash
 package org.snaatak
@@ -96,7 +93,7 @@ class TerraformCIUtils implements Serializable {
   }
 }
 ```
-### Step 3: Jenkins Shared Library - Template
+### Step 2: Jenkins Shared Library - Template
 `vars/terraformCICheckTemplate.groovy`
 ```bash
 def call(Map config = [:]) {
@@ -140,7 +137,7 @@ def call(Map config = [:]) {
   }
 }
 ```
-### Step 4: Jenkinsfile in Terraform Module Repo
+### Step 3: Jenkinsfile in Terraform Module Repo
 ```bash
 @Library('terraform-module-ci-lib@main') _
 
@@ -161,7 +158,7 @@ terraformCICheckTemplate(
   planOutFile: 'tfplan.out'
 )
 ```
-### Step 5: Trigger Jenkins Pipeline
+### Step 4: Trigger Jenkins Pipeline
 - Navigate to Jenkins
 - Create a Pipeline Job → SCM → point to the Terraform repo
 - Set main as the branch
