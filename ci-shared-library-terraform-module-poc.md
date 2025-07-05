@@ -141,7 +141,7 @@ def call(Map config = [:]) {
 @Library('terraform-module-ci-lib@main') _
 
 terraformCICheckTemplate(
-  tfModuleDir: 'terraform/modules/network',
+  tfModuleDir: 'terraform',
   backendConfig: [
     bucket: 'tfstate-demo-bucket',
     key: 'network/dev/terraform.tfstate',
