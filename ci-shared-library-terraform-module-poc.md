@@ -50,11 +50,15 @@ terraform-module-ci-lib/
 ### Terraform Modules Repository
 ```bash
 terraform/
+├── main.tf
+├── variables.tf
+├── outputs.tf
+├── terraform.tfvars
 ├── modules/
-│   └── network/
-│       ├── main.tf
-│       ├── variables.tf
-│       ├── outputs.tf
+|    └── network/
+|       ├── main.tf
+|       ├── variables.tf
+|       └── outputs.tf
 ├── Jenkinsfile
 ```
 ## POC Steps for Terraform Modules CI 
