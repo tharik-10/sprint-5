@@ -33,7 +33,7 @@ The shared library standardizes and simplifies tasks such as `terraform init`, `
 | Jenkins Credentials    | GitHub token for private repo (if applicable)                               |
 | Jenkins Agent          | Terraform installed, Git installed                                          |
 | Terraform              | Version 5.0                                                                 |
-| GitHub Repo            | Terraform modules in a structure with VPC, Subnets, IGW, NAT Gateway        |
+| GitHub Repo            | Terraform modules in a structure with VPC, Subnets, IGW      |
 
 ## Folder Structure
 
