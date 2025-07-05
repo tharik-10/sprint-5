@@ -267,14 +267,14 @@ Blue-Green Deployment with Immutable Infrastructure provides **safe, zero-downti
 | Mohamed Tharik  | md.tharik.sanaatak@mygurukulam.co    |
 
 ## References
-| Link                                                                                                                              | Description                                                                                   |
-|-----------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| [Blue/Green Deployment – Martin Fowler](https://martinfowler.com/bliki/BlueGreenDeployment.html)                                 | Core concept explanation of Blue-Green deployment strategy from Martin Fowler.                |
-| [Immutable Infrastructure – Red Hat](https://www.redhat.com/en/topics/devops/what-is-immutable-infrastructure)                   | Explains the benefits and working of immutable infrastructure in a DevOps context.            |
-| [Blue-Green Deployments with Terraform on AWS – Gruntwork](https://blog.gruntwork.io/a-comprehensive-guide-to-blue-green-deployments-on-aws-using-terraform-8348e8f23f3f) | Practical implementation of Blue-Green deployments using Terraform and AWS services.          |
-| [AWS Whitepaper – Blue/Green Deployment](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/bluegreen-deployments.html) | Official AWS deployment strategies whitepaper including Blue-Green.                          |
-| [Terraform AWS Autoscaling Module](https://registry.terraform.io/modules/terraform-aws-modules/autoscaling/aws/latest)           | Official Terraform module to manage AWS Auto Scaling Groups for immutable infra.              |
-| [EC2 Launch Templates – AWS Docs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html)                 | Used to define immutable EC2 instance configurations.                                         |
-| [ALB Listener Rules – AWS Docs](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html)| Key to switching traffic between Blue and Green environments using ALB target groups.         |
+| Link                                                                                                                               | Description                                                                                   |
+|------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| [Blue/Green Deployment – Martin Fowler](https://martinfowler.com/bliki/BlueGreenDeployment.html)                                  | Foundational explanation of the Blue-Green deployment strategy.                               |
+| [Immutable Infrastructure – Red Hat](https://www.redhat.com/en/topics/devops/what-is-immutable-infrastructure)                    | DevOps-oriented explanation of immutable infrastructure and its importance.                   |
+| [Blue-Green Deployments with Terraform – Gruntwork Blog](https://blog.gruntwork.io/a-comprehensive-guide-to-blue-green-deployments-on-aws-using-terraform-8348e8f23f3f) | Detailed Terraform-based guide on Blue-Green deployments on AWS.                             |
+| [AWS Whitepaper – Blue/Green Deployment](https://docs.aws.amazon.com/whitepapers/latest/overview-deployment-options/bluegreen-deployments.html) | Official AWS deployment options including Blue-Green explained in detail.                    |
+| [Terraform AWS Auto Scaling Module](https://registry.terraform.io/modules/terraform-aws-modules/autoscaling/aws/latest)            | Reusable Terraform module for managing AWS Auto Scaling Groups.                              |
+| [AWS EC2 Launch Templates](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html)                          | Used for defining immutable EC2 configurations.                                               |
+| [AWS ALB Listener Rules](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html)         | Documentation for configuring ALB listeners and switching between environments.               |
 
 
