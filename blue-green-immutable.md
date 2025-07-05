@@ -54,22 +54,30 @@ graph TD
 
 ## Implementation for Blue Green Deployment 
 ### Step 1: Initialize Terraform Project
-1. Create a folder:
+Create a folder:
 ```bash
 mkdir blue-green-deployment && cd blue-green-deployment
 ```
-2. Initialize Terraform files:
+### Step 2: Project Directory Structure
 ```bash
-terraform init
+blue-green-deployment/
+├── provider.tf
+├── variables.tf
+├── terraform.tfvars
+├── alb.tf
+├── asg_blue.tf
+├── asg_green.tf
+├── outputs.tf
+├── userdata-blue.sh
+├── userdata-green.sh     
 ```
-### Step 2: Define AWS Provider
+### Step 3: Define AWS Provider
 **File**: `provider.tf`
 ```bash
 provider "aws" {
   region = var.aws_region
 }
 ```
-### Step 3: Create Variables
 **File**: `variables.tf`
 ```bash
 variable "aws_region" {}
@@ -83,7 +91,15 @@ variable "instance_type" {
   default = "t2.micro"
 }
 ```
-### Step 4: Define ALB and Target Groups
+**File**: `terraform.tfvars`
+```bash
+aws_region         = "ap-south-1"
+vpc_id             = "vpc-xxxxxxxx"
+subnet_ids         = ["subnet-aaaaaaa", "subnet-bbbbbbb"]
+security_group_id  = "sg-xxxxxxxx"
+ami_id             = "ami-1234567890abcdefg"  
+instance_type      = "t2.micro"
+```
 **File**: `alb.tf`
 ```bash
 resource "aws_lb" "app_alb" {
@@ -118,14 +134,13 @@ resource "aws_lb_listener" "http" {
   }
 }
 ```
-###  Step 5: Blue Environment Setup
 **File**: `asg_blue.tf`
 ```bash
 resource "aws_launch_template" "blue_lt" {
   name_prefix   = "blue-lt-"
   image_id      = var.ami_id
   instance_type = var.instance_type
-  user_data     = filebase64("userdata.sh")
+  user_data     = filebase64("userdata-blue.sh")
   vpc_security_group_ids = [var.security_group_id]
 }
 
@@ -144,14 +159,13 @@ resource "aws_autoscaling_group" "blue_asg" {
   health_check_type = "EC2"
 }
 ```
-### Step 6: Green Environment Setup
 **File**: `asg_green.tf`
 ```bash
 resource "aws_launch_template" "green_lt" {
   name_prefix   = "green-lt-"
   image_id      = var.ami_id
   instance_type = var.instance_type
-  user_data     = filebase64("userdata.sh")
+  user_data     = filebase64("userdata-green.sh")
   vpc_security_group_ids = [var.security_group_id]
 }
 
@@ -170,23 +184,54 @@ resource "aws_autoscaling_group" "green_asg" {
   health_check_type = "EC2"
 }
 ```
-### Step 7: User Data Script
-**File**: `userdata.sh`
-```bash
-#!/bin/bash
-yum update -y
-yum install -y httpd
-echo "Welcome to $(hostname)!" > /var/www/html/index.html
-systemctl start httpd
-systemctl enable httpd
-```
-### Step 8: Output the ALB DNS
 **File**: `outputs.tf`
 ```bash 
 output "alb_dns" {
   value = aws_lb.app_alb.dns_name
 }
 ```
+**File**: `userdata-blue.sh`
+```bash
+#!/bin/bash
+apt update -y
+apt install -y apache2
+echo "Welcome to the BLUE version - v1" > /var/www/html/index.html
+echo "<h1>Blue Deployment - Version 1</h1>" >> /var/www/html/index.html
+echo "<p>Served by a Debian-based EC2 instance</p>" >> /var/www/html/index.html
+systemctl start apache2
+systemctl enable apache2
+```
+**File**: `userdata-green.sh`
+```bash
+#!/bin/bash
+apt update -y
+apt install -y apache2
+echo "Welcome to the GREEN version - v2" > /var/www/html/index.html
+echo "<h1>Green Deployment - Version 2</h1>" >> /var/www/html/index.html
+echo "<p>Deployed using Terraform Launch Template on Debian</p>" >> /var/www/html/index.html
+systemctl start apache2
+systemctl enable apache2
+```
+### Step 4: Run the Terraform Commands to Apply and see changes in the Cloud 
+```bash
+terraform init
+terraform apply -var-file="terraform.tfvars"
+```
+Visit the alb_dns output URL
+### Step 5: Switch Traffic to Green
+Edit `alb.tf`:
+```bash 
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.green_tg.arn
+  }
+```
+Then re-apply:
+```bash
+terraform apply -var-file="terraform.tfvars"
+```
+Now ALB points to Green version — visit `alb_dns` again to confirm.
+
 ## Best Practices
 | Best Practice                       | Description                                                                                               |
 | ----------------------------------- | --------------------------------------------------------------------------------------------------------- |
