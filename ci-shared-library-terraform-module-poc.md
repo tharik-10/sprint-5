@@ -44,7 +44,7 @@ shared-library/
 │   └── terraformCICheckTemplate.groovy  # Template calling init, validate, plan
 ├── src/
 │   └── org/
-│       └── snaatak/
+│       └── cloudninja/
 │           └── TerraformCIUtils.groovy   # Shared reusable class for Terraform functions
 ```
 ### Terraform Modules Repository
@@ -66,7 +66,7 @@ terraform/
 Ensure the Terraform code is under a valid module structure.
 
 ### Step 2: Jenkins Shared Library - Terraform Utils
-`src/org/snaatak/TerraformUtils.groovy`
+`src/org/cloudninja/TerraformCIUtils.groovy`
 ```bash
 package org.snaatak
 
@@ -107,7 +107,7 @@ def call(Map config = [:]) {
   def TF_VARS       = config.get('tfVars', [:])
   def PLAN_OUT_FILE = config.get('planOutFile', 'tfplan.out')
 
-  def tf = new org.snaatak.TerraformCIUtils(steps)
+  def tf = new org.cloudninja.TerraformCIUtils(steps)
 
   node {
     try {
