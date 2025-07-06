@@ -89,6 +89,8 @@ blue-green-deployment/
 ├── userdata-blue.sh
 ├── userdata-green.sh     
 ```
+![Screenshot-275](https://github.com/user-attachments/assets/ba673bf7-484b-4d0c-b644-523470dbd538)
+
 ### Step 3: Define AWS Provider
 **File**: `provider.tf`
 ```bash
@@ -152,6 +154,9 @@ resource "aws_lb_listener" "http" {
   }
 }
 ```
+![Screenshot-276](https://github.com/user-attachments/assets/55848c83-b7e4-4584-91bd-bf0bfd2b4b9d)
+![Screenshot-277](https://github.com/user-attachments/assets/378a9e8e-3d7b-49db-9c3a-321caffea773)
+
 **File**: `asg_blue.tf`
 ```bash
 resource "aws_launch_template" "blue_lt" {
@@ -237,7 +242,12 @@ terrafrom validate
 terrafrom plan
 terraform apply -var-file="terraform.tfvars"
 ```
+![Screenshot-272](https://github.com/user-attachments/assets/ca207b9e-03de-46fb-86c4-65157869b8ac)
+![Screenshot-274](https://github.com/user-attachments/assets/8b3bd8b7-d930-4935-99c2-92fc2c3c671f)
+
 Visit the alb_dns output URL
+![Screenshot-271](https://github.com/user-attachments/assets/1ebb37c0-5f96-44fc-9bf4-04c317986d4d)
+
 ### Step 5: Switch Traffic to Green
 Edit `alb.tf`:
 ```bash 
@@ -246,11 +256,16 @@ Edit `alb.tf`:
     target_group_arn = aws_lb_target_group.green_tg.arn
   }
 ```
+![Screenshot-280](https://github.com/user-attachments/assets/9b467e8b-3b86-4427-b358-6911ef1726ae)
+![Screenshot-281](https://github.com/user-attachments/assets/d0a7d2b0-1ee4-4c36-a2b2-5f9bbfa1973c)
+
 Then re-apply:
 ```bash
 terraform apply -var-file="terraform.tfvars"
 ```
 Now ALB points to Green version — visit `alb_dns` again to confirm.
+![Screenshot-279](https://github.com/user-attachments/assets/bd730bcc-beb8-4cf8-94ab-41c4ccb0dba3)
+![Screenshot-278](https://github.com/user-attachments/assets/a1287872-cfef-4e4e-a67a-db1588e76d7a)
 
 ## Best Practices
 | Best Practice                       | Description                                                                                               |
