@@ -269,11 +269,11 @@ cat <<EOF | sudo tee /var/www/html/index.html
 </head>
 <body>
   <div class="box">
-    <h1>🚀 Rolling Deployment Active</h1>
+    <h1>Rolling Deployment Active</h1>
     <p><strong>Version:</strong> <span style="color: #2196F3;">New Version - v1.0</span></p>
     <p class="meta">Instance: $HOSTNAME</p>
     <p class="meta">Deployed at: $DEPLOY_TIME</p>
-    <p>✅ Successfully Deployed Using <strong>Terraform Rolling Update</strong></p>
+    <p>Successfully Deployed Using <strong>Terraform Rolling Update</strong></p>
   </div>
 </body>
 </html>
