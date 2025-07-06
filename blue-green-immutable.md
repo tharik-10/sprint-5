@@ -111,11 +111,11 @@ variable "instance_type" {
 ```
 **File**: `terraform.tfvars`
 ```bash
-aws_region         = "ap-south-1"
-vpc_id             = "vpc-xxxxxxxx"
-subnet_ids         = ["subnet-aaaaaaa", "subnet-bbbbbbb"]
-security_group_id  = "sg-xxxxxxxx"
-ami_id             = "ami-1234567890abcdefg"  
+aws_region         = "us-east-1"
+vpc_id             = "vpc-080c2d0da420b59df"
+subnet_ids         = ["subnet-07def189a4f6bb2fb", "subnet-06af12661543c0c9a"]
+security_group_id  = "sg-014c1dfff364b1ae7"
+ami_id             = "ami-020cba7c55df1f615"  
 instance_type      = "t2.micro"
 ```
 **File**: `alb.tf`
