@@ -19,7 +19,7 @@
   * [Step 1: Directory Structure](#step-1-directory-structure)
   * [Step 2: Terraform Provider and Variables](#step-2-terraform-provider-and-variables)
   * [Step 3: Launch Template and ASG](#step-3-launch-template-and-asg)
-  * [Step 4: Rolling Update Configuration](#step-4-rolling-update-configuration)
+  * [Step 4: Run the Terraform Commands to Apply and see changes in the Cloud](#step-4-run-the-terraform-commands-to-apply-and-see-changes-in-the-cloud)
 * [Best Practices](#best-practices)
 * [Conclusion](#conclusion)
 * [Contact Information](#contact-information)
@@ -158,7 +158,7 @@ resource "aws_autoscaling_group" "app_asg" {
 }
 ```
 
-### Step 4: Run Terraform
+### Step 4: Run the Terraform Commands to Apply and see changes in the Cloud
 
 ```bash
 terraform init
