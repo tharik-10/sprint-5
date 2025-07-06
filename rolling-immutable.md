@@ -95,80 +95,205 @@ provider "aws" {
 **variables.tf**
 
 ```hcl
-variable "aws_region" {}
-variable "vpc_id" {}
-variable "subnet_ids" { type = list(string) }
-variable "security_group_id" {}
-variable "ami_id" {}
-variable "instance_type" { default = "t2.micro" }
+variable "instance_type" {
+  default = "t2.micro"
+}
 ```
-
-**terraform.tfvars**
+**data.tf**
 
 ```hcl
-aws_region         = "ap-south-1"
-vpc_id             = "vpc-xxxxxxxx"
-subnet_ids         = ["subnet-aaaaaaa", "subnet-bbbbbbb"]
-security_group_id  = "sg-xxxxxxxx"
-ami_id             = "ami-xxxxxxxxxxxxxxxxx"
+data "aws_vpc" "default" {
+  default = true
+}
+
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
+}
+
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
 ```
 
-### Step 3: Launch Template and ASG
+### Step 3: Launch Template , ASG and ALB 
 
-**launch\_template.tf**
+**launch_template.tf**
 
 ```hcl
 resource "aws_launch_template" "app_lt" {
-  name_prefix   = "rolling-lt-"
-  image_id      = var.ami_id
+  name_prefix   = "rolling-app-"
+  image_id      = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
-  user_data     = filebase64("userdata.sh")
-  vpc_security_group_ids = [var.security_group_id]
+
+  user_data = base64encode(file("userdata.sh"))
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tag_specifications {
+    resource_type = "instance"
+    tags = {
+      Name = "rolling-instance-new"
+    }
+  }
 }
+
 ```
 
 **asg.tf**
 
 ```hcl
 resource "aws_autoscaling_group" "app_asg" {
-  desired_capacity     = 2
-  max_size             = 3
-  min_size             = 1
-  vpc_zone_identifier  = var.subnet_ids
-  target_group_arns    = [aws_lb_target_group.app_tg.arn]
+  name                      = "rolling-asg"
+  min_size                  = 2
+  max_size                  = 2
+  desired_capacity          = 2
+  vpc_zone_identifier       = data.aws_subnets.default.ids
+  target_group_arns         = [aws_lb_target_group.app_tg.arn]
+  health_check_type         = "ELB"
+  health_check_grace_period = 30
 
   launch_template {
     id      = aws_launch_template.app_lt.id
     version = "$Latest"
   }
 
-  health_check_type         = "EC2"
-  health_check_grace_period = 30
-  force_delete              = true
+  tag {
+    key                 = "Name"
+    value               = "rolling-instance-new"
+    propagate_at_launch = true
+  }
+
   lifecycle {
     create_before_destroy = true
-  }
-  instance_refresh {
-    strategy = "Rolling"
-    preferences {
-      min_healthy_percentage = 50
-    }
-    triggers = ["launch_template"]
+    ignore_changes        = [launch_template[0].version]
   }
 }
 ```
+**alb.tf**
+```hcl
+resource "aws_lb" "app_alb" {
+  name               = "rolling-alb"
+  load_balancer_type = "application"
+  subnets            = data.aws_subnets.default.ids
+  security_groups    = [aws_security_group.alb_sg.id]
+}
 
+resource "aws_lb_target_group" "app_tg" {
+  name     = "rolling-tg"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = data.aws_vpc.default.id
+
+  health_check {
+    path                = "/"
+    protocol            = "HTTP"
+    interval            = 30
+    healthy_threshold   = 2
+    unhealthy_threshold = 2
+  }
+}
+
+resource "aws_lb_listener" "app_listener" {
+  load_balancer_arn = aws_lb.app_alb.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.app_tg.arn
+  }
+}
+
+resource "aws_security_group" "alb_sg" {
+  name        = "alb-sg"
+  description = "Allow HTTP"
+  vpc_id      = data.aws_vpc.default.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+```
+**outputs.tf**
+```hcl
+output "alb_dns_name" {
+  value = aws_lb.app_alb.dns_name
+}
+```
+**userdata.sh**
+```bash
+#!/bin/bash
+sudo apt update -y
+sudo apt install -y nginx -y
+
+DEPLOY_TIME=$(date)
+HOSTNAME=$(hostname)
+
+cat <<EOF | sudo tee /var/www/html/index.html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rolling Deployment</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f5f5f5; }
+    .box { background: white; padding: 30px; margin: auto; width: 60%; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h1 { color: #4CAF50; }
+    .meta { color: gray; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>🚀 Rolling Deployment Active</h1>
+    <p><strong>Version:</strong> <span style="color: #2196F3;">New Version - v1.0</span></p>
+    <p class="meta">Instance: $HOSTNAME</p>
+    <p class="meta">Deployed at: $DEPLOY_TIME</p>
+    <p>✅ Successfully Deployed Using <strong>Terraform Rolling Update</strong></p>
+  </div>
+</body>
+</html>
+EOF
+
+sudo systemctl start nginx
+```
 ### Step 4: Run the Terraform Commands to Apply and see changes in the Cloud
 
 ```bash
 terraform init
+terraform validate
+terrafrom plan 
 terraform apply -var-file="terraform.tfvars"
 ```
 
-Update `ami_id` in `terraform.tfvars` with a new AMI and re-apply:
+Update `userdata.sh` and re-apply:
 
 ```bash
-terraform apply -var-file="terraform.tfvars"
+terraform apply 
 ```
 
 ## Best Practices
