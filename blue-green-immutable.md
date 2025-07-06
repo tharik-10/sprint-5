@@ -233,6 +233,8 @@ systemctl enable apache2
 ### Step 4: Run the Terraform Commands to Apply and see changes in the Cloud 
 ```bash
 terraform init
+terrafrom validate
+terrafrom plan
 terraform apply -var-file="terraform.tfvars"
 ```
 Visit the alb_dns output URL
