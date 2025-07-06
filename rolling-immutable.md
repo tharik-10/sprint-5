@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="" width="500"/>
+  <img src="https://github.com/user-attachments/assets/5e9c8a11-9b9e-4cb8-96cd-3118a3d4d33f" width="500"/>
 </p>  
 
 # Immutable Infra Rollout for Rolling Deployment
