@@ -1,0 +1,26 @@
+@Library('shared-library@aditya_SCRUM-510') _
+
+properties([
+    parameters([
+        choice(
+            name: 'action',
+            choices: ['apply', 'destroy'],
+            description: 'Choose the action to perform: apply or destroy'
+        ),
+        string(
+            name: 'tfvarsFile',
+            defaultValue: 'terraform.tfvars',
+            description: 'Path to .tfvars file relative to terraformPath (optional)'
+        )
+    ])
+])
+
+networkskeletoncicdtemplate(
+    repoUrl: 'https://github.com/Cloud-NInja-snaatak/wrapper-code.git',
+    branchName: 'Himanshu_SCRUM-524',
+    credentialsId: 'github-token',
+    terraformPath: 'env/dev/application/notification',
+    message: "Approval for infrastructure ${params.action}",
+    action: params.action,
+    tfvarsFile: params.tfvarsFile ?: ''
+)
