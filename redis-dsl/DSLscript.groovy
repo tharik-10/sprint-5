@@ -15,7 +15,7 @@ pipelineJob('Terraform Infrastructure Jobs/env/dev/wrappercode/database/redis/de
                         url('https://github.com/Cloud-NInja-snaatak/jenkins-pipeline.git')
                         credentials('github-token')
                     }
-                    branches('*/Aniruddh_SCRUM-526')
+                    branches('*/Tharik_SCRUM-535')
                 }
             }
             scriptPath('terraform/wrappercode/env/dev/database/redis/Jenkinsfile')
