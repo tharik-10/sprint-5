@@ -18,7 +18,7 @@ properties([
 networkskeletoncicdtemplate(
     repoUrl: 'https://github.com/Cloud-NInja-snaatak/wrapper-code.git',
     branchName: 'Aniruddh_SCRUM-525',
-    credentialsId: 'aditya-github-cred',
+    credentialsId: 'github-token',
     terraformPath: 'env/dev/database/notification',
     message: "Approval for infrastructure ${params.action}",
     action: params.action,
