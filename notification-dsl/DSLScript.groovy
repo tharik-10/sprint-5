@@ -1,11 +1,11 @@
 // Create the complete folder hierarchy step by step
 folder('Terraform Infrastructure Jobs/env') {}
-folder('Terraform Infrastructure Jobs/env/dev') {}
-folder('Terraform Infrastructure Jobs/env/dev/wrappercode') {}
-folder('Terraform Infrastructure Jobs/env/dev/wrappercode/applications') {} 
-folder('Terraform Infrastructure Jobs/env/dev/wrappercode/applications/notification') {}
+folder('Terraform Infrastructure Jobs/env/qa') {}
+folder('Terraform Infrastructure Jobs/env/qa/wrappercode') {}
+folder('Terraform Infrastructure Jobs/env/qa/wrappercode/applications') {} 
+folder('Terraform Infrastructure Jobs/env/qa/wrappercode/applications/notification') {}
 
-pipelineJob('Terraform Infrastructure Jobs/env/dev/wrappercode/applications/notification/dev-otms-seed-job-wrappercode-notification') {
+pipelineJob('Terraform Infrastructure Jobs/env/qa/wrappercode/applications/notification/dev-otms-seed-job-wrappercode-notification') {
     displayName('dev-otms-seed-job-wrappercode-notification')
     definition {
         cpsScm {
@@ -18,7 +18,7 @@ pipelineJob('Terraform Infrastructure Jobs/env/dev/wrappercode/applications/noti
                     branches('*/Tharik_SCRUM-533')
                 }
             }
-            scriptPath('terraform/wrappercode/env/dev/application/notification/Jenkinsfile')
+            scriptPath('terraform/wrappercode/env/qa/application/notification/Jenkinsfile')
         }
     }
 }
