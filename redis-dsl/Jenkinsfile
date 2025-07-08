@@ -17,9 +17,9 @@ properties([
 
 networkskeletoncicdtemplate(
     repoUrl: 'https://github.com/Cloud-NInja-snaatak/wrapper-code.git',
-    branchName: 'Aniruddh_SCRUM-526',
+    branchName: 'aniruddh_SCRUM-526',
     credentialsId: 'github-token',
-    terraformPath: 'env/dev/databse/redis',
+    terraformPath: 'env/qa/middleware/redis',
     message: "Approval for infrastructure ${params.action}",
     action: params.action,
     tfvarsFile: params.tfvarsFile ?: ''
