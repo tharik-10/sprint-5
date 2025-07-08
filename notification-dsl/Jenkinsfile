@@ -19,7 +19,7 @@ networkskeletoncicdtemplate(
     repoUrl: 'https://github.com/Cloud-NInja-snaatak/wrapper-code.git',
     branchName: 'Himanshu_SCRUM-524',
     credentialsId: 'github-token',
-    terraformPath: 'env/dev/application/notification',
+    terraformPath: 'env/qa/application/notification',
     message: "Approval for infrastructure ${params.action}",
     action: params.action,
     tfvarsFile: params.tfvarsFile ?: ''
