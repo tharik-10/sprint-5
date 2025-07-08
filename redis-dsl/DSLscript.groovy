@@ -1,11 +1,11 @@
 // Create the complete folder hierarchy step by step
 folder('Terraform Infrastructure Jobs/env') {}
-folder('Terraform Infrastructure Jobs/env/dev') {}
-folder('Terraform Infrastructure Jobs/env/dev/wrappercode') {}
-folder('Terraform Infrastructure Jobs/env/dev/wrappercode/databse') {} 
-folder('Terraform Infrastructure Jobs/env/dev/wrappercode/database/redis') {}
+folder('Terraform Infrastructure Jobs/env/qa') {}
+folder('Terraform Infrastructure Jobs/env/qa/wrappercode') {}
+folder('Terraform Infrastructure Jobs/env/qa/wrappercode/middleware') {} 
+folder('Terraform Infrastructure Jobs/env/qa/wrappercode/middleware/redis') {}
 
-pipelineJob('Terraform Infrastructure Jobs/env/dev/wrappercode/database/redis/dev-otms-seed-job-wrappercode-redis') {
+pipelineJob('Terraform Infrastructure Jobs/env/qa/wrappercode/middleware/redis/dev-otms-seed-job-wrappercode-redis') {
     displayName('dev-otms-seed-job-wrappercode-redis')
     definition {
         cpsScm {
@@ -18,7 +18,7 @@ pipelineJob('Terraform Infrastructure Jobs/env/dev/wrappercode/database/redis/de
                     branches('*/Tharik_SCRUM-535')
                 }
             }
-            scriptPath('terraform/wrappercode/env/dev/database/redis/Jenkinsfile')
+            scriptPath('terraform/wrappercode/env/qa/middleware/redis/Jenkinsfile')
         }
     }
 }
